@@ -18,10 +18,13 @@ int main(int argc, char* argv[]){
     
       istringstream cadena(linea);  
 
-      while(getline(cadena,token, ',')){
-	cout<<"Token: "<<token<<endl;
-	
-      }
+      getline(cadena,id, ',');
+      getline(cadena,x, ',');
+      getline(cadena,y, ',');
+      getline(cadena,name, ',');
+
+      cout<<"ID: "<<id<<" X: "<<x<<" y: "<<y<<" nombre: "<<name<<endl;
+	  
   }
 
   cin>>linea;
