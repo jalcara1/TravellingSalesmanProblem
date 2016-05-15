@@ -6,40 +6,56 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
-  int id;
+  int id,id2,distancia;
   double x,y;
   string name, linea,token;
+  Nodo actual;
   
-  cin>>linea;
- 
+  getline(cin,linea);
+  
   while(getline(cin,linea) && linea!=""){
       
-      cout<<"linea: "<<linea<<endl;
-    
       istringstream cadena(linea);  
 
-      getline(cadena,id, ',');
-      getline(cadena,x, ',');
-      getline(cadena,y, ',');
+      getline(cadena,token, ',');
+      istringstream(token)>>id;
+
+      getline(cadena,token, ',');
+      istringstream (token)>>x;
+
+      getline(cadena,token, ',');
+      istringstream (token)>>y;
+      
       getline(cadena,name, ',');
 
-      cout<<"ID: "<<id<<" X: "<<x<<" y: "<<y<<" nombre: "<<name<<endl;
-	  
+      cout<<"ID:"<<id<<" X:"<<x<<" Y:"<<y<<" nombre:"<<name<<endl;
+      cout<<endl;
+
+      actual= Nodo(id,x,y,name);
+      cout<<actual.getNombre()<<" creado"<<endl;
   }
-
-  cin>>linea;
   
-
+  getline(cin,linea);
+  
+  
   while(getline(cin,linea) && linea!=""){
-    
-      cout<<"linea: "<<linea<<endl;
-      
+          
       istringstream cadena(linea);  
       
-      while(getline(cadena,token, ',')){
-	cout<<"Token: "<<token<<endl;
-	
-      }
+      getline(cadena,token, ',');
+      istringstream (token)>>id;
+
+      getline(cadena,token, ',');
+      istringstream (token)>>id2;
+
+      getline(cadena,token, ',');
+      istringstream (token)>>distancia;
+
+      getline(cadena,name, ',');
+
+      cout<<"Desde "<<id<<" hasta "<<id2<<" hay: "<<distancia<<" por: "<<name<<endl;
+
+      cout<<endl;
   }
   
   

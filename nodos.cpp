@@ -1,26 +1,26 @@
 #include "nodos.h"
 
-nodo::nodo(int id,float cX,float cY,string name){
+Nodo::Nodo(int id,float cX,float cY,string name){
   ID=id;
   x=cX;
   y=cY;
   nombre=name;
 }
 
-nodo::nodo(){}
+Nodo::Nodo(){}
 
-int nodo::getID(){
+int Nodo::getID(){
   return ID;
 }
 
-float nodo::getX(){
+float Nodo::getX(){
   return x;
 }
 
-float nodo::getY(){
+float Nodo::getY(){
   return y;
 }
 
-string nodo::getNombre(){
+string Nodo::getNombre(){
   return nombre;
 }

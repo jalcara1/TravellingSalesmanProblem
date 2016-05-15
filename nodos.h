@@ -1,16 +1,23 @@
-#include <iostream>
+#ifndef NODOS_H
+#define NODOS_H
+#endif
 
-class nodo{
+#include <iostream>
+#include <string.h>
+#include <string>
+
+using namespace std;
+
+class Nodo{
 
 private:
   int ID;
   float x,y;
-  String nombre;
-  
-  
+  string nombre;
+    
 public:
-  nodo();
-  nodo(int id,float cX,float cY,string name);
+  Nodo();
+  Nodo(int id,float cX,float cY,string name);
   int getID();
   float getX();
   float getY();
