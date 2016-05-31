@@ -45,21 +45,25 @@ int main(int argc, char* argv[]){
       getline(cadena,token, ',');
       istringstream (token)>>y;
       
-      getline(cadena,name, ',');
+      getline(cadena,name,',');
 
-      cout<<"ID:"<<id<<" X:"<<x<<" Y:"<<y<<" nombre:"<<name<<endl;
-      cout<<endl;
+      //      cout<<"ID:"<<id<<" X:"<<x<<" Y:"<<y<<" nombre:"<<name<<endl;
+      //cout<<endl;
 
       //   Nodo* actual= new Nodo(id,x,y,name);
       //cocout<<actual->getNombre()<<" creado"<<endl;
       contador++;
   }
+  cout<<contador<<endl;
 
   //para ignorar el encabezado de las entradas
   getline(cin,linea);
 
+
+
   //Se crea la matriz segun los nodos
   //int distancias[contador][contador];
+
 
   /*se llena todo con infinito, mirar como hacer el recorrido
     solo del triángulo */
@@ -98,6 +102,6 @@ int main(int argc, char* argv[]){
       cout<<endl;
   }
   
-  imprimirMatriz(contador);
+  //  imprimirMatriz(contador);
   return 0;
 }

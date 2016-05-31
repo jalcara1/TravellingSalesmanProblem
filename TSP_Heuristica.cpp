@@ -16,7 +16,11 @@ int main(){
   double x,y;
   string linea,token;
 
+  //para ignorar encabezado
   getline(cin,linea);
+  cout<<linea<<endl;
+
+  //leemos los nodos
 
   while(getline(cin,linea) && linea!=""){
 
@@ -34,6 +38,29 @@ int main(){
     contador++;
   }
   
+  cout<<"nodos: "<<contador<<endl;
 
+  //omitir encabezado aristas
+  getline(cin,linea);
+
+  
+  //se leen las aristas
+  while(getline(cin,linea) && linea!=""){
+    istringstream cadena(linea);
+
+    //id origen
+    getline(cadena,token);
+    istringstream(token)>>id;
+
+    //id destino
+    getline(cadena,token);
+    istringstream(token)>>id2;
+
+    //distancia
+    getline(cadena,token);
+    istringstream(token)>>distancia;
+   
+
+  }
 
 }
