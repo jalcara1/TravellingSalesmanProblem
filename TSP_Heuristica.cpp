@@ -16,11 +16,8 @@ const int MAXN = 100005;
 const int INF = 1 << 30;
 
 typedef pair <int,int> dist_n; //datos del heap (dist,nodo)
-//typedef pair <int,int> edge; //Datos de arista (nodo,peso)
 
 map< int, map<int,int> > pesos; //mapa de mapas para llegar a los pesos
-
-//vector<edge> g[MAXN]; //g[u] = (v=nodo, w= peso)
 
 int distancias[MAXN]; //d[u] la distancia mas corta de s a u
 int predecesor[MAXN]; //p[u] el predecesor de u en el camino mas corto
@@ -158,11 +155,5 @@ int main(){
 
     //se guarda en el mapa de pesos
     pesos[id][id2]=distancia;
-    cout<<"de "<<id<<" a "<<id2<<" hay "<<distancia<<endl;
-    //cout<<"peso en ["<<id<<"]["<<id2<<"]= "<<pesos[id][id2]<<endl;
-
   }
-  dijkstra(1,contador);
-  vector<int> ou=camino(6);
-  imprimir(ou);
 }
