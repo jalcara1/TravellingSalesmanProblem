@@ -25,21 +25,42 @@ public:
   Dijkstra();
   Dijkstra(map<int, map<int,int> >);
   int* getDistancias();
-  void dijkstra(int,int);
+  void consultar(int,int);
   vector<int> camino(int);
-
+  void limpiarArreglos();
 };
 
 
 
 Dijkstra::Dijkstra(){}
 
-Dijkstra::Dijkstra(map<int,map<int,int> > arcos){
-  pesos=arcos;
-}
+Dijkstra::Dijkstra(map<int,map<int,int> > arcos):
+  pesos(arcos) {}
 
 int* Dijkstra::getDistancias(){
   return distancias;
+}
+
+/**
+ * Método para encontrar un camino desde S hasta un T
+ **/
+vector<int> Dijkstra::camino(int t){
+  vector <int> camino;
+  int actual = t;
+  
+  while(actual != -1){
+    camino.push_back(actual);
+    actual = predecesor[actual];
+  }
+  reverse(camino.begin(), camino.end());
+  return camino;
+}
+
+void Dijkstra::limpiarArreglos(){  
+  for (int i = 0; i <= n; ++i){
+    distancias[i] = INF;
+    this->predecesor[i] = -1;
+  }
 }
 
 
@@ -47,13 +68,8 @@ int* Dijkstra::getDistancias(){
  *Método para aplicar dijkstra
  *la funcion recibe S y el número total de nodos n
 **/
-void Dijkstra::dijkstra(int origen,int n){
-
-  for (int i = 0; i <= n; ++i){
-    distancias[i] = INF;
-    predecesor[i] = -1;
-  }
-
+void Dijkstra::consultar(int origen,int n){
+  limpiarArreglos();
   priority_queue < dist_n , vector <dist_n>, greater<dist_n> > colapr;
 
   distancias[origen] = 0;
@@ -87,28 +103,4 @@ void Dijkstra::dijkstra(int origen,int n){
   }
 }
 
-/**
- * Método para encontrar un camino desde S hasta un T
- **/
-vector <int> camino(int t){
-  vector <int> camino;
-  int actual = t;
-  
-  while(actual != -1){
-    camino.push_back(actual);
-    actual = predecesor[actual];
-  }
-  reverse(camino.begin(), camino.end());
-  return camino;
-}
-
-/**
- * Metodo para imprimir un vector
- **/
-void imprimir(vector<int> v){
-  for(int i=0;i<v.size();i++){
-    cout<<v[i]<<" ";
-  }
-  cout<<endl;
-}
-
+ 
