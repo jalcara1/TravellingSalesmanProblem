@@ -1,10 +1,9 @@
 #include "nodos.h"
 
-Nodo::Nodo(int id,float cX,float cY,string name){
+Nodo::Nodo(int id,double cX,double cY){
   ID=id;
   x=cX;
   y=cY;
-  nombre=name;
 }
 
 Nodo::Nodo(){}
@@ -13,14 +12,10 @@ int Nodo::getID(){
   return ID;
 }
 
-float Nodo::getX(){
+double Nodo::getX(){
   return x;
 }
 
-float Nodo::getY(){
+double Nodo::getY(){
   return y;
-}
-
-string Nodo::getNombre(){
-  return nombre;
 }

@@ -1,17 +1,22 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <iomanip>
+#include <algorithm>
 
 #include <map>
 #include <queue>
 #include <vector>
-#include <algorithm>
+
 
 
 using namespace std;
 
-//datos para disktra
+typedef pair<double,double> coordenada; //para de cordenadas (x,y) 
+map<int,coordenada> nodos; //mapa para guardas las coordenadas por el id
 
+
+//datos para disktra
 const int MAXN = 100005;
 const int INF = 1 << 30;
 
@@ -97,7 +102,6 @@ void imprimir(vector<int> v){
  *Main para leer el archivo y llamar los métodos
  **/
 int main(){
-
   int id,id2,distancia,contador=0;
   double x,y;
   string linea,token,token2,token3;
@@ -107,7 +111,7 @@ int main(){
  
   //leemos los nodos
   while(getline(cin,linea) && linea!=""){
-
+    cout<<"linea: "<<linea<<endl;
     istringstream cadena(linea);
 
     //id del nodo
@@ -123,12 +127,17 @@ int main(){
     istringstream(token)>>y;
     
     contador++;
+    nodos[id]= coordenada(x,y);
+    cout<<"Ingreso "<<id<<" x: "<<nodos[id].first<<" y: "<<nodos[id].second<<endl;
   }
   
   cout<<"nodos: "<<contador<<endl;
 
 
 
+
+
+  
   //omitir encabezado aristas
   getline(cin,linea);
 
@@ -156,4 +165,6 @@ int main(){
     //se guarda en el mapa de pesos
     pesos[id][id2]=distancia;
   }
+
+  
 }

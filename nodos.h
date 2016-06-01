@@ -1,9 +1,5 @@
 #pragma once
 
-//#ifndef NODOS_H
-//#define NODOS_H
-//#endif
-
 #include <iostream>
 #include <string.h>
 #include <string>
