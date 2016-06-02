@@ -23,7 +23,7 @@ private:
   int nodos;
 public:
   Dijkstra();
-  Dijkstra(map<int, map<int,int> >);
+  Dijkstra(map<int, map<int,int> >,int);
   int* getDistancias();
   int getDistancia(int);
   vector<int> camino(int);
