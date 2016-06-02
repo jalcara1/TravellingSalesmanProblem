@@ -35,6 +35,7 @@ vector< vector<int> > Kruskal:: consultar(){
 
   int arcos = 1;
   while(arcos < cn){
+    //cout<<"while"<<endl;
     // Encontrar  el arco mínimo que no forma ciclo y guardar los nodos y la distancia.
     int min = INF;
 
@@ -46,7 +47,8 @@ vector< vector<int> > Kruskal:: consultar(){
 	  nodoA = i;
 	  nodoB = j;
 	}
-    
+  
+    //cout<<"sali del for"<<endl;
     // Si los nodos no pertenecen al mismo árbol agrego el arco al árbol mínimo.
     if(pertenece[nodoA] != pertenece[nodoB]){
       arbol[nodoA][nodoB] = min;
@@ -55,11 +57,13 @@ vector< vector<int> > Kruskal:: consultar(){
       // Todos los nodos del árbol del nodoB ahora pertenecen al árbol del nodoA.
       int temp = pertenece[nodoB];
       pertenece[nodoB] = pertenece[nodoA];
+
       for(int k = 0; k < cn; k++)
 	if(pertenece[k] == temp)
 	  pertenece[k] = pertenece[nodoA];
 
       arcos++;
+      cout<<"arcos "<<arcos<<endl;
     }
   }
   return arbol;

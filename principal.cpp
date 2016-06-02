@@ -22,6 +22,7 @@ vector< vector<int> > adj;
 void dfs(int nodo){
   visitados[nodo] = true;
   int next;
+  cout<<"visite"<<nodo<<endl;
   for(int i = 0; i < adj[nodo].size(); ++i){
     next = adj[nodo][i];
     if(!visitados[next]){
@@ -98,6 +99,8 @@ int main(int argc, char* argv[]){
     Kruskal k = Kruskal(mini, consultas.size());
     vector< vector<int> > salida = k.consultar();
     adj = salida;
+    dfs(consultas[0]);
+
     //sacar el camino y las coordenadas
     mini.clear(); //limpiarlo para el siguiente archivo
     caminos.clear(); 
