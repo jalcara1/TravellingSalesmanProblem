@@ -11,16 +11,18 @@
 using namespace std;
 
 const int MAXBUF = 256;
-const int MAXN = 100005;
 
 typedef pair<double,double> coordenada; //para de cordenadas (x,y)
 map<int,coordenada> nodos; //mapa para guardas las coordenadas por el id
 map< int, map<int,int> > pesos; //mapa de mapas para llegar a los pesos
 
-void dfs(int nodos){
+bool visitados[MAXN];
+vector< vector<int> > adj;
+
+void dfs(int nodo){
   visitados[nodo] = true;
   int next;
-  for(int i = 0; i < adj[nodos].size(); ++i){
+  for(int i = 0; i < adj[nodo].size(); ++i){
     next = adj[nodo][i];
     if(!visitados[next]){
       dfs(next);
@@ -46,8 +48,7 @@ int main(int argc, char* argv[]){
     ins >> id >> x >> y;
     cNodos++;
     nodos[id] = coordenada(x,y); //se guarda en un mapa las coordenadas de cada id
-  }
-  
+  }  
   cout << "# nodos: " << cNodos << endl;
   //omitir encabezado aristas
   int contador2 = 0;
@@ -61,7 +62,7 @@ int main(int argc, char* argv[]){
     pesos[id][id2] = distancia;  //se guarda la arista con su peso en el mapa
     contador2++;
   }
-  cout << "contador de aristas" << contador2 << endl;
+  cout << "contador de aristas: " << contador2 << endl;
   //Se leen los archivos de consulta
   for(int i =2; i< argc; ++i){    
     ifstream filein(argv[i]);
@@ -95,7 +96,8 @@ int main(int argc, char* argv[]){
       cout << endl;
     }
     Kruskal k = Kruskal(mini, consultas.size());
-    vector< vector<int> > salida = k.consultar();   
+    vector< vector<int> > salida = k.consultar();
+    adj = salida;
     //sacar el camino y las coordenadas
     mini.clear(); //limpiarlo para el siguiente archivo
     caminos.clear(); 
