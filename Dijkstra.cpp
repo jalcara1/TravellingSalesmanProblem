@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
-
+#include <string>
 #include <map>
 #include <queue>
 #include <vector>
@@ -20,29 +20,44 @@ private:
   map< int, map<int,int> > pesos; //mapa de mapas para llegar a los pesos
   int distancias[MAXN]; //d[u] la distancia mas corta de s a u
   int predecesor[MAXN]; //p[u] el predecesor de u en el camino mas corto
-  
+  int nodos;
 public:
   Dijkstra();
   Dijkstra(map<int, map<int,int> >);
   int* getDistancias();
-  void consultar(int,int);
+  int getDistancia(int);
   vector<int> camino(int);
   void limpiarArreglos();
+  void consultar(int);
+  void imprimir(vector<int>);
 };
 
 
 
 Dijkstra::Dijkstra(){}
 
-Dijkstra::Dijkstra(map<int,map<int,int> > arcos):
-  pesos(arcos) {}
+Dijkstra::Dijkstra(map<int,map<int,int> > arcos,int n):
+  pesos(arcos),nodos(n) {}
 
+
+/**
+ *Retorna el arreglo de distancias
+ **/
 int* Dijkstra::getDistancias(){
   return distancias;
 }
 
 /**
- * Método para encontrar un camino desde S hasta un T
+ * Retorna el elemento de la posicion en el arreglo de distancias
+ **/
+int Dijkstra::getDistancia(int posicion){
+  return distancias[posicion];
+}
+
+
+
+/**
+ * Método para encontrar un camino desde el origen hasta un T
  **/
 vector<int> Dijkstra::camino(int t){
   vector <int> camino;
@@ -56,8 +71,25 @@ vector<int> Dijkstra::camino(int t){
   return camino;
 }
 
+/**
+ * Se convierte un vector del camino a un string
+ **/
+
+void Dijkstra::imprimir(vector<int> v){
+  for(int i=0;i<v.size();i++){
+    cout<<v[i]<<" ";
+  }
+  cout<<endl;
+}
+
+
+
+
+/**
+ * Se borra el contenido de los arreglos para evitar errores
+ **/
 void Dijkstra::limpiarArreglos(){  
-  for (int i = 0; i <= n; ++i){
+  for (int i = 0; i <= nodos ; ++i){
     distancias[i] = INF;
     this->predecesor[i] = -1;
   }
@@ -68,8 +100,9 @@ void Dijkstra::limpiarArreglos(){
  *Método para aplicar dijkstra
  *la funcion recibe S y el número total de nodos n
 **/
-void Dijkstra::consultar(int origen,int n){
+void Dijkstra::consultar(int origen){
   limpiarArreglos();
+
   priority_queue < dist_n , vector <dist_n>, greater<dist_n> > colapr;
 
   distancias[origen] = 0;
@@ -101,6 +134,7 @@ void Dijkstra::consultar(int origen,int n){
 
     
   }
+  cout<<"se consulto con: "<<origen<<endl;
 }
 
  

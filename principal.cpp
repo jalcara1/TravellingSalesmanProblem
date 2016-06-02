@@ -4,6 +4,9 @@
 #include <sstream>
 #include <map>
 #include <iomanip>
+#include <vector>
+#include "Dijkstra.cpp"
+
 
 using namespace std;
 const int MAXBUF = 256;
@@ -15,16 +18,16 @@ map< int, map<int,int> > pesos; //mapa de mapas para llegar a los pesos
 
 int main(int argc, char* argv[]){
   char buffer[MAXBUF];
-  ifstream fichero(argv[1]);
-  int contador =0;
+  ifstream fichero(argv[1]); //leemos el fichero con el mapa
+  int contador = 0; //contador para los nodos del mapa
+  vector<int> consultas; //Vector para guardar las consltas
   //para ignorar encabezado
   char ignorar[MAXBUF];
- 
-
   fichero.getline(ignorar,MAXBUF);
-  cout << sizeof(buffer)/sizeof(buffer[0]) << endl;
-  cout<<ignorar<<endl;
+  //cout << sizeof(buffer)/sizeof(buffer[0]) << endl;
 
+  //Leemos el mapa
+  
   //leemos los nodos
   while(fichero.getline(buffer,MAXBUF) && buffer[0] != 'A'){
     // if(buffer == "yaa"){
@@ -36,12 +39,14 @@ int main(int argc, char* argv[]){
     double x, y;
     ins >> id >> x >> y;
     contador++;
-    nodos[id]= coordenada(x,y);
+    nodos[id]= coordenada(x,y); //se guarda en un mapa las coordenadas de cada id
   }
-  cout<<"nodos: "<<contador<<endl;
+  
+  cout<<"# nodos: "<<contador<<endl;
   //omitir encabezado aristas
   //fichero.getline(ignorar,MAXBUF);
-  cout << buffer << endl;
+  //cout << buffer << endl;
+  int contador2=0;
   //se leen las aristas
   while(fichero.getline(buffer,MAXBUF)){
     string buffer2(buffer);
@@ -49,8 +54,11 @@ int main(int argc, char* argv[]){
     int distancia, id,id2;    
     ins >> id >> id2 >> distancia;
     //se guarda en el mapa de pesos    
-    pesos[id][id2]=distancia;
-  } 
+    pesos[id][id2]=distancia;  //se guarda la arista con su peso en el mapa
+    contador2++;
+  }
+  cout<<"contador de aristas"<<contador<<endl;
+  //Se leen los archivos de consulta
   for(int i =2; i< argc; ++i){    
     ifstream filein(argv[i]);
     while(filein.getline(buffer,MAXBUF)){
@@ -59,11 +67,36 @@ int main(int argc, char* argv[]){
       int nodo;
       ins >> nodo;
       if(ins){
-	cout << "Nodo: " << nodo << endl;
+	//cout << "Nodo: " << nodo << endl;
+	consultas.push_back(nodo);
       }else{
 	cerr << "Error en la entrada" << endl;
       }
     }
+
+    Dijkstra dij=Dijkstra(pesos);
+    map< int, map<int,int> > mini;
+    map< int, map< int, vector<int> > > caminos;
+
+    for(int i=0;i<consultas.size();i++){
+      dij.consultar(consultas[i]);
+
+      for(int j = 0; j<consultas.size();j++){
+	if(i!=j){
+	  mini[i][j]=dij.getDistancia(j);
+	  caminos[i][j]=dij.camino(j);
+	  cout<<"Distancia de "<<i<<" a "<<j<<" "<<mini[i][j]<<endl;
+	  dij.imprimir(caminos[i][j]); //desde el mapa
+
+
+	  //aplicar aca el algoritmo con ese mapa
+	  //sacar el camino y las coordenadas
+	}
+      }
+    }
+
+    mini.clear(); //limpiarlo para el siguiente archivo
+    caminos.clear(); 
   }
   return 0;
 }

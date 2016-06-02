@@ -1,13 +1,28 @@
-// Declaraciones en el archivo .h
-int cn; //cantidad de nodos
-vector< vector<int> > ady; //matriz de adyacencia
+#include <map>
+
+class Kruskal{
+u
+private:
+  int cn; //cantidad de nodos
+  map< int, map<int,int> > ady; //matriz de adyacencia
+
+public:
+  Kruskal();
+  Kruskal(map< int, map<int,int> >, int);
+  vector< vector<int> > consultar();
+};
+
+Kruskal::Kruskal(){}
+
+Kruskal::Kruskal(map<int, map<int,int> arcos,int n):
+  cn(n),ady(arcos){}
 
 // Devuelve la matriz de adyacencia del árbol mínimo.
-vector< vector<int> > Grafo :: kruskal(){
+vector< vector<int> > Dijkstra:: consultar(){
   vector< vector<int> > adyacencia = this->ady;
   vector< vector<int> > arbol(cn);
   vector<int> pertenece(cn); // indica a que árbol pertenece el nodo
-
+};
   for(int i = 0; i < cn; i++){
     arbol[i] = vector<int> (cn, 0);
             pertenece[i] = i
