@@ -87,19 +87,22 @@ int main(int argc, char* argv[]){
 	  mini[i][j]=dij.getDistancia(j);
 	  caminos[i][j]=dij.camino(j);
 	  cout<<"Distancia de "<<i<<" a "<<j<<" "<<mini[i][j]<<endl;
+	  cout<<"camino: ";
 	  dij.imprimir(caminos[i][j]); //desde el mapa
 	  
 	}
       }
-      Kruskal k=Kruskal(pesos,cNodos);
-      vector< vector<int> > salida=k.consultar();
-      
-      
-      //sacar el camino y las coordenadas
+      cout<<endl;
     }
 
+    Kruskal k=Kruskal(mini,cNodos);
+    vector< vector<int> > salida=k.consultar();
+   
+    //sacar el camino y las coordenadas
+    
+    
     mini.clear(); //limpiarlo para el siguiente archivo
-    caminos.clear(); 
+      caminos.clear(); 
   }
   return 0;
 }
