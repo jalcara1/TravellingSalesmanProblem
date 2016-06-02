@@ -1,2 +1,2 @@
 clean:
-	rm -f *.exe *.o
+	rm -f *.exe* *.o *~

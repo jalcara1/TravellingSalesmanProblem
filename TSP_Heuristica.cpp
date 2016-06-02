@@ -131,40 +131,22 @@ int main(){
     cout<<"Ingreso "<<id<<" x: "<<nodos[id].first<<" y: "<<nodos[id].second<<endl;
   }
   
-  cout<<"nodos: "<<contador<<endl;
-
-
-
-
-
-  
+  cout<<"nodos: "<<contador<<endl;  
   //omitir encabezado aristas
-  getline(cin,linea);
-
-  
+  getline(cin,linea);  
   //se leen las aristas
   while(getline(cin,linea) && linea!=""){
-
     istringstream cadena(linea);
-
     //id origen
     getline(cadena,token,' ');
-    istringstream(token)>>id;
-    
-    
+    istringstream(token)>>id;      
     //id destino
     getline(cadena,token,' ');
     istringstream(token)>>id2;
-
-
     //distancia
     getline(cadena,token,' ');
     istringstream(token)>>distancia;
-
-
     //se guarda en el mapa de pesos
     pesos[id][id2]=distancia;
-  }
-
-  
+  }  
 }
