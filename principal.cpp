@@ -46,12 +46,14 @@ string getCoordenadas(vector <int> camino, map< int, map<int, vector <int> > > i
     
     intermedio= intermedios[desde][hasta]; 
 
-    for(int j = 0; j < intermedio.size()-1 ;j++ ){
+    for(int j = 0; j < intermedio.size()-1;j++ ){
       cout<<"intermedio con "<<intermedio[j]<<endl;
       salida += nodos[ intermedio[j] ].first + "," + nodos[ intermedio[j] ].second + "/";
-
+      cout<<endl;
+    
     }
   }
+  return salida;
 }
 
 
@@ -177,8 +179,8 @@ int main(int argc, char* argv[]){
     //calcular e imprimir distancia
     cout<<"Distancia total: "<<calcularDist(result,mini)<<endl;
 
-    string s=getCoordenadas(result,intermedios);
-    //cout<<"coordenadas: "<<getCoordenadas(result,intermedios)<<endl;
+    //string s=getCoordenadas(result,intermedios);
+    cout<<"coordenadas: "<<getCoordenadas(result,intermedios)<<endl;
     
     
     //limpiamos los mapas para el siguiente archivo
