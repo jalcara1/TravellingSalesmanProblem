@@ -22,12 +22,15 @@ vector< vector<int> > adj;
 void dfs(int nodo){
   visitados[nodo] = true;
   int next;
-  cout<<"visite"<<nodo<<endl;
+  cout<<"nodo "<<nodo<<endl;
   for(int i = 0; i < adj[nodo].size(); ++i){
     next = adj[nodo][i];
     if(!visitados[next]){
+      //cout<<"visite "<<next<<endl;
       dfs(next);
+      //cout<<"visite "<<next<<endl;
     }
+    
   }
 }
 
@@ -67,6 +70,7 @@ int main(int argc, char* argv[]){
   //Se leen los archivos de consulta
   for(int i =2; i< argc; ++i){    
     ifstream filein(argv[i]);
+
     while(filein.getline(buffer,MAXBUF)){
       string nodos(buffer);
       istringstream ins(nodos);
@@ -97,8 +101,10 @@ int main(int argc, char* argv[]){
       cout << endl;
     }
     Kruskal k = Kruskal(mini, consultas.size());
-    vector< vector<int> > salida = k.consultar();
-    adj = salida;
+    adj = k.consultar();
+    cout<<"antes de imprimir"<<endl;
+    k.imprimirV(adj);
+    //adj = salida;
     dfs(consultas[0]);
 
     //sacar el camino y las coordenadas

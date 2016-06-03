@@ -11,7 +11,8 @@ private:
 public:
   Kruskal();
   Kruskal(map< int, map<int,int> >, int);
-  vector< vector<int> > consultar();
+  vector< vector<int> >  consultar();
+  void imprimirV(vector < vector<int> >);
 };
 
 
@@ -29,7 +30,7 @@ vector< vector<int> > Kruskal:: consultar(){
   int nodoA,nodoB;
   
   for(int i = 0; i < cn; i++){
-    arbol[i] = vector<int> (cn, 0);
+    //arbol[i] = vector<int> (cn, 0);
     pertenece[i] = i;
   }
 
@@ -51,10 +52,10 @@ vector< vector<int> > Kruskal:: consultar(){
     //cout<<"sali del for"<<endl;
     // Si los nodos no pertenecen al mismo árbol agrego el arco al árbol mínimo.
     if(pertenece[nodoA] != pertenece[nodoB]){
-      arbol[nodoA][nodoB] = min;
-      arbol[nodoB][nodoA] = min;
-
+      arbol[nodoA].push_back(nodoB);
+      arbol[nodoB].push_back(nodoA);
       // Todos los nodos del árbol del nodoB ahora pertenecen al árbol del nodoA.
+
       int temp = pertenece[nodoB];
       pertenece[nodoB] = pertenece[nodoA];
 
@@ -63,8 +64,17 @@ vector< vector<int> > Kruskal:: consultar(){
 	  pertenece[k] = pertenece[nodoA];
 
       arcos++;
-      cout<<"arcos "<<arcos<<endl;
     }
   }
   return arbol;
+}
+
+void Kruskal::imprimirV(vector< vector<int> > ve){
+  for(int i=0;i<ve.size(); i++){
+    cout<<"de "<<i<<" a ";
+    for(int j=0; j<ve[i].size();j++){
+      cout<<ve[i][j]<<" ";
+    }
+    cout<<endl;
+  }
 }
