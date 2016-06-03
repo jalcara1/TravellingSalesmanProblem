@@ -33,41 +33,63 @@ void printVector(vector<int> vector){
 }
 
 
+/**
+ * coordenadas sin puntos intermedios
+ **/
+string coord(vector<int>camino){
+  string salida="";
+
+  for(int i = 0; i<camino.size() ; i++)
+    salida+= nodos[ camino[i] ].first + "," + nodos[ camino[i] ].second + "/";
+
+  return salida;
+}
+
+/**
+ * Nos da las coordenadas del ciclo, incluyendo los puntos intermedios.
+ **/
 string getCoordenadas(vector <int> camino, map< int, map<int, vector <int> > > intermedios){
 
   string salida="";
   vector <int> intermedio;
   int desde,hasta;
-  
+
+  //Se recorre el camino resultante y se sacan los nodos intermedios entre cada par de nodos.
   for(int i=1;i<camino.size();i++){
     desde=camino[i-1];
     hasta=camino[i];
-    cout<<desde<<" hasta "<<hasta<<endl;
-    
     intermedio= intermedios[desde][hasta]; 
 
-    for(int j = 0; j < intermedio.size()-1;j++ ){
-      cout<<"intermedio con "<<intermedio[j]<<endl;
+    salida+= nodos[desde].first + "," + nodos[desde].second + "/";
+    //cout<<"se agrego la coordenada desde "<<desde<<endl;
+
+    for(int j = 1; j < intermedio.size()-1;j++ ){
+      //cout<<"intermedio con "<<intermedio[j]<<endl;
+      //cout<<"se agrego la coordenada intermedia "<<intermedio[j]<<endl;
       salida += nodos[ intermedio[j] ].first + "," + nodos[ intermedio[j] ].second + "/";
-      cout<<endl;
-    
     }
+    salida+= nodos[ hasta].first + "," + nodos[hasta].second + "/";
+
   }
+  
   return salida;
 }
 
-
+/**
+ * Usado para calcular la distancia  total de un camino de nodos alamacenado en un vector
+ **/
 int calcularDist(vector<int> v,map< int, map<int,int> > adj){
   int dist=0;
   for(int i = 1; i< v.size() ; i++){
     dist += adj[ v[i-1] ][ v[i] ];
-    cout<<"dist parcial: "<<dist<<endl;
   }
   cout<<endl;
   return dist;
 }
 
-
+/**
+ * Recorrido en profundidad de una lista de adyacencia.
+ **/
 dfs(int nodo){
   visitados[nodo] = true;
   result.push_back(nodo);
@@ -82,10 +104,12 @@ dfs(int nodo){
 }
 
 int main(int argc, char* argv[]){
-  char buffer[MAXBUF];
+
+  char buffer[MAXBUF]; //para almacenar cada linea
   ifstream fichero(argv[1]); //leemos el fichero con el mapa
   int cNodos = 0; //contador para los nodos del mapa
   vector<int> consultas; //Vector para guardar las consltas
+
   //para ignorar encabezado
   char ignorar[MAXBUF];
   fichero.getline(ignorar,MAXBUF);
@@ -104,8 +128,7 @@ int main(int argc, char* argv[]){
     nodos[id] = coordenada(x,y); //se guarda en un mapa las coordenadas de cada id
   }  
 
-  cout << "# nodos: " << cNodos << endl;
-
+  cout << "# nodos: " << cNodos << endl << endl;
 
   //se leen las aristas
   while(fichero.getline(buffer,MAXBUF)){
@@ -116,7 +139,7 @@ int main(int argc, char* argv[]){
     ins >> id >> id2 >> distancia;
 
     //se guarda en el mapa de pesos    
-    pesos[id][id2] = distancia;  //se guarda la arista con su peso en el mapa
+    pesos[id][id2] = distancia;  
 
   }
 
@@ -150,21 +173,17 @@ int main(int argc, char* argv[]){
 	if(i != j){
 	  mini[i][j] = dij.getDistancia(j);
 	  intermedios[i][j] = dij.camino(j);
-	  cout << "Distancia de " << i << " a " << j << " " << mini[i][j] << endl;
-	  cout << "camino: ";
-	  dij.imprimir(intermedios[i][j]); //desde el mapa
-	  
 	}
       }
-      cout << endl;
     }
-
+    cout<<endl;
+    
     //se crea el objeto de kruskal y se aplica con el minigrafo
     Kruskal k = Kruskal(mini, consultas.size());
     adj = k.consultar();
 
     //imprimimos el arbol de expancion minima resultante
-    cout<<"Lista de adyancencia final: "<<endl;
+    cout<<"Lista de adyancencia arbol de expansion minima: "<<endl;
     k.imprimirV(adj);
     cout<<endl;
     
@@ -179,9 +198,13 @@ int main(int argc, char* argv[]){
     //calcular e imprimir distancia
     cout<<"Distancia total: "<<calcularDist(result,mini)<<endl;
 
-    //string s=getCoordenadas(result,intermedios);
-    cout<<"coordenadas: "<<getCoordenadas(result,intermedios)<<endl;
+    //abrir el link
+    string link="https://www.google.com.co/maps/dir/";
+
+    //link sin caminos intermedios
+    cout<<endl<<"link sin caminos intermedios: "<<endl<<link+coord(result)<<endl;
     
+    //cout<<"lista completa de coordenadas: "<<getCoordenadas(result,intermedios)<<endl;
     
     //limpiamos los mapas para el siguiente archivo
     mini.clear(); 

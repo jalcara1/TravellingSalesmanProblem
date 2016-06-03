@@ -134,7 +134,7 @@ void Dijkstra::consultar(int origen){
 
     
   }
-  cout<<"se consulto con: "<<origen<<endl;
+  cout<<"se llamo Dijkstra con: "<<origen<<endl;
 }
 
  
