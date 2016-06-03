@@ -1,4 +1,5 @@
 #include <iostream>
+#include <windows.h>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -203,8 +204,9 @@ int main(int argc, char* argv[]){
 
     //link sin caminos intermedios
     cout<<endl<<"link sin caminos intermedios: "<<endl<<link+coord(result)<<endl;
-    
-    //cout<<"lista completa de coordenadas: "<<getCoordenadas(result,intermedios)<<endl;
+    //string link; 
+    //ShellExecute(NULL, "open", link+coord(result), NULL, NULL, SW_SHOWNORMAL);
+    cout<<"lista completa de coordenadas: "<<link+getCoordenadas(result,intermedios)<<endl;
     
     //limpiamos los mapas para el siguiente archivo
     mini.clear(); 
