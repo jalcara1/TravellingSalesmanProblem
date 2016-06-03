@@ -12,7 +12,7 @@ using namespace std;
 
 const int MAXBUF = 256; //usado para la lectura del archivo
 
-typedef pair<double,double> coordenada; //para de cordenadas (x,y)
+typedef pair<string,string> coordenada; //para de cordenadas (x,y)
 
 map<int,coordenada> nodos; //mapa para guardas las coordenadas por el id
 map< int, map<int,int> > pesos; //mapa de mapas para llegar a los pesos
@@ -25,17 +25,33 @@ vector <int> result; // Vector que contiene el ciclo hamiltoniano generado
 /**
  * imprime un vector
  **/
-void printVector(vector<int> a){
-  for(int i=0 ; i<a.size() ; i++){
-    cout<<a[i]<<" ";
+void printVector(vector<int> vector){
+  for(int i=0 ; i<vector.size() ; i++){
+    cout<<vector[i]<<" ";
   }
   cout<<endl;
 }
 
 
-void resultado(){
-  
+string getCoordenadas(vector <int> camino, map< int, map<int, vector <int> > > intermedios){
 
+  string salida="";
+  vector <int> intermedio;
+  int desde,hasta;
+  
+  for(int i=1;i<camino.size();i++){
+    desde=camino[i-1];
+    hasta=camino[i];
+    cout<<desde<<" hasta "<<hasta<<endl;
+    
+    intermedio= intermedios[desde][hasta]; 
+
+    for(int j = 0; j < intermedio.size()-1 ;j++ ){
+      cout<<"intermedio con "<<intermedio[j]<<endl;
+      salida += nodos[ intermedio[j] ].first + "," + nodos[ intermedio[j] ].second + "/";
+
+    }
+  }
 }
 
 
@@ -43,7 +59,9 @@ int calcularDist(vector<int> v,map< int, map<int,int> > adj){
   int dist=0;
   for(int i = 1; i< v.size() ; i++){
     dist += adj[ v[i-1] ][ v[i] ];
+    cout<<"dist parcial: "<<dist<<endl;
   }
+  cout<<endl;
   return dist;
 }
 
@@ -69,31 +87,38 @@ int main(int argc, char* argv[]){
   //para ignorar encabezado
   char ignorar[MAXBUF];
   fichero.getline(ignorar,MAXBUF);
+
+
   //Leemos el mapa  
+
   //leemos los nodos
   while(fichero.getline(buffer,MAXBUF) && buffer[0] != 'A'){
     string buffer2(buffer);
     istringstream ins(buffer2);
     int id;
-    double x, y;
+    string x, y;
     ins >> id >> x >> y;
     cNodos++;
     nodos[id] = coordenada(x,y); //se guarda en un mapa las coordenadas de cada id
   }  
+
   cout << "# nodos: " << cNodos << endl;
-  //omitir encabezado aristas
-  int contador2 = 0;
+
+
   //se leen las aristas
   while(fichero.getline(buffer,MAXBUF)){
     string buffer2(buffer);
     istringstream ins(buffer2);    
     int distancia, id,id2;    
+
     ins >> id >> id2 >> distancia;
+
     //se guarda en el mapa de pesos    
     pesos[id][id2] = distancia;  //se guarda la arista con su peso en el mapa
-    contador2++;
+
   }
-  cout << "contador de aristas: " << contador2 << endl;
+
+  
   //Se leen los archivos de consulta
   for(int i =2; i< argc; ++i){    
     ifstream filein(argv[i]);
@@ -103,24 +128,29 @@ int main(int argc, char* argv[]){
       istringstream ins(nodos);
       int nodo;
       ins >> nodo;
+
       if(ins){	
 	consultas.push_back(nodo);
       }else{
 	cerr << "Error en la entrada" << endl;
       }
     }
+
+
+    //Se aplica Dijkstra desde cada nodo de la consulta
     Dijkstra dij = Dijkstra(pesos,cNodos);
     map< int, map<int,int> > mini;
-    map< int, map< int, vector<int> > > caminos;
+    map< int, map< int, vector<int> > > intermedios;
+    
     for(int i =0;i< consultas.size(); i++){
       dij.consultar(consultas[i]);
       for(int j =0; j <consultas.size(); j++){
 	if(i != j){
 	  mini[i][j] = dij.getDistancia(j);
-	  caminos[i][j] = dij.camino(j);
+	  intermedios[i][j] = dij.camino(j);
 	  cout << "Distancia de " << i << " a " << j << " " << mini[i][j] << endl;
 	  cout << "camino: ";
-	  dij.imprimir(caminos[i][j]); //desde el mapa
+	  dij.imprimir(intermedios[i][j]); //desde el mapa
 	  
 	}
       }
@@ -147,13 +177,15 @@ int main(int argc, char* argv[]){
     //calcular e imprimir distancia
     cout<<"Distancia total: "<<calcularDist(result,mini)<<endl;
 
-    //sacar el camino y las coordenadas
-
+    string s=getCoordenadas(result,intermedios);
+    //cout<<"coordenadas: "<<getCoordenadas(result,intermedios)<<endl;
+    
+    
     //limpiamos los mapas para el siguiente archivo
     mini.clear(); 
-    caminos.clear(); 
+    intermedios.clear(); 
   }
-
+  
 
   return 0;
 }
