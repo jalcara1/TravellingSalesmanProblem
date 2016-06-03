@@ -10,27 +10,54 @@
 
 using namespace std;
 
-const int MAXBUF = 256;
+const int MAXBUF = 256; //usado para la lectura del archivo
 
 typedef pair<double,double> coordenada; //para de cordenadas (x,y)
+
 map<int,coordenada> nodos; //mapa para guardas las coordenadas por el id
 map< int, map<int,int> > pesos; //mapa de mapas para llegar a los pesos
 
-bool visitados[MAXN];
-vector< vector<int> > adj;
+bool visitados[MAXN]; //usado por el DFS para marcar los visitados
+vector< vector<int> > adj; //lista de adyacencia que recorre el dfs
+vector <int> result; // Vector que contiene el ciclo hamiltoniano generado
 
-void dfs(int nodo){
+
+/**
+ * imprime un vector
+ **/
+void printVector(vector<int> a){
+  for(int i=0 ; i<a.size() ; i++){
+    cout<<a[i]<<" ";
+  }
+  cout<<endl;
+}
+
+
+void resultado(){
+  
+
+}
+
+
+int calcularDist(vector<int> v,map< int, map<int,int> > adj){
+  int dist=0;
+  for(int i = 1; i< v.size() ; i++){
+    dist += adj[ v[i-1] ][ v[i] ];
+  }
+  return dist;
+}
+
+
+dfs(int nodo){
   visitados[nodo] = true;
+  result.push_back(nodo);
   int next;
-  cout<<"nodo "<<nodo<<endl;
+  
   for(int i = 0; i < adj[nodo].size(); ++i){
     next = adj[nodo][i];
     if(!visitados[next]){
-      //cout<<"visite "<<next<<endl;
       dfs(next);
-      //cout<<"visite "<<next<<endl;
     }
-    
   }
 }
 
@@ -78,7 +105,6 @@ int main(int argc, char* argv[]){
       ins >> nodo;
       if(ins){	
 	consultas.push_back(nodo);
-	cout << "Nodo: " << consultas.back() << endl;
       }else{
 	cerr << "Error en la entrada" << endl;
       }
@@ -100,16 +126,34 @@ int main(int argc, char* argv[]){
       }
       cout << endl;
     }
+
+    //se crea el objeto de kruskal y se aplica con el minigrafo
     Kruskal k = Kruskal(mini, consultas.size());
     adj = k.consultar();
-    cout<<"antes de imprimir"<<endl;
+
+    //imprimimos el arbol de expancion minima resultante
+    cout<<"Lista de adyancencia final: "<<endl;
     k.imprimirV(adj);
-    //adj = salida;
+    cout<<endl;
+    
+    //aplicamos dfs con el primer nodo de las consultas
     dfs(consultas[0]);
+    result.push_back(consultas[0]);
+
+    //imprimir ciclo
+    cout<<"Ciclo: "<<endl;
+    printVector(result);
+
+    //calcular e imprimir distancia
+    cout<<"Distancia total: "<<calcularDist(result,mini)<<endl;
 
     //sacar el camino y las coordenadas
-    mini.clear(); //limpiarlo para el siguiente archivo
+
+    //limpiamos los mapas para el siguiente archivo
+    mini.clear(); 
     caminos.clear(); 
   }
+
+
   return 0;
 }
